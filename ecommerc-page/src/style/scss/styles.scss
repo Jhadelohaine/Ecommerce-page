@@ -5,11 +5,9 @@ $veryDarkBlue: hsl(220, 13%, 13%);
 $darkGrayishBlue: hsl(219, 9%, 45%);
 $grayishBlue: hsl(220, 14%, 75%);
 $lightGrayishBlue: hsl(223, 64%, 98%);
-
 // imports
 @import 'fonts';
 @import 'header';
-
 // Reset
 *{
     padding: 0;
@@ -17,13 +15,22 @@ $lightGrayishBlue: hsl(223, 64%, 98%);
     list-style: none;
     text-decoration: none;
 }
-
 body{
     font-family: 'Kumbh Sans', sans-serif;
 }
-
 p{
     font-size: 16px;
+}
+
+button{
+    background: none;
+    border: none;
+    img{
+        width: 100%;
+    }
+    &:hover{
+        cursor: pointer;
+    }
 }
 
 .container{
@@ -32,4 +39,20 @@ p{
     padding-right: 20px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.background-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    pointer-events: none;
+    transition: background-color .3s ease;
+    &.active{
+        pointer-events: all;
+        background-color: rgba(0, 0, 0, 0.75);
+    }
 }
