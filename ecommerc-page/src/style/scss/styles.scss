@@ -8,18 +8,28 @@ $lightGrayishBlue: hsl(223, 64%, 98%);
 // imports
 @import 'fonts';
 @import 'header';
+@import 'product-presentation';
+
 // Reset
 *{
     padding: 0;
     margin: 0;
     list-style: none;
     text-decoration: none;
+    box-sizing: border-box;
 }
+
 body{
     font-family: 'Kumbh Sans', sans-serif;
+    overflow-x: hidden;
 }
+
 p{
     font-size: 16px;
+}
+
+img{
+    max-width: 100%;
 }
 
 button{
@@ -32,7 +42,6 @@ button{
         cursor: pointer;
     }
 }
-
 .container{
     max-width: 1400px;
     padding-left: 20px;
@@ -40,7 +49,6 @@ button{
     margin-left: auto;
     margin-right: auto;
 }
-
 .background-mask{
     position: fixed;
     top: 0;
@@ -54,5 +62,34 @@ button{
     &.active{
         pointer-events: all;
         background-color: rgba(0, 0, 0, 0.75);
+    }
+}
+
+.button-1{
+    padding: 18px 15px;
+    background-color: $orange;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0px 15px 20px 0px $paleOrange;
+    transition: opacity .3s ease;
+    &:hover{
+        opacity: 75%;
+    }
+    &.press{
+        animation: pressAnimation .2s;
+    }
+}
+
+@keyframes pressAnimation{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(.95);
+    }
+    100%{
+        transform: scale(1);
     }
 }

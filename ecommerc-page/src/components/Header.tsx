@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react"
 
-// Assets
 import logo from '../assets/images/logo.svg'
 import cartLogo from '../assets/images/icon-cart.svg'
 import profileAvatar from '../assets/images/image-avatar.png'
 import menuIcon from '../assets/images/icon-menu.svg'
 import closeIcon from '../assets/images/icon-close.svg'
-
 interface Props {
     menuIsOpen: boolean;
     handleMenuToggle: (val: boolean) => void;
 }
-
-const Header: React.FC<Props> = (props) => 
-{
-    const [ cartIsOpen, setCart ] = useState(false)
-
+const Header: React.FC<Props> = (props) => {
     const { menuIsOpen } = props
     const [ cartIsOpen, setCart ] = useState<boolean>(false)
     const [ itemCount, setItemCount ] = useState<number>(2)
-
     useEffect(()=> props.handleMenuToggle(menuIsOpen),[props])
-
     return(
         <header className="container">
             <div className="header-content">
@@ -52,7 +44,7 @@ const Header: React.FC<Props> = (props) =>
                 </div>
                 <div className="header-side">
                     <button className="cart-button" title="open cart"  onClick={ ()=> setCart(!cartIsOpen) }>
-                        <img className="icon-size-1" src={cartLogo} alt="cart-logo"/>  
+                        <img className="icon-size-1" src={cartLogo} alt="cart-logo"/>
                         {itemCount > 0 ? (
                             <span className="items-count">{itemCount}</span>
                         ) : null}
