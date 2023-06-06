@@ -62,7 +62,6 @@ header{
                     background-color: $orange;
                 }
             }
-            
             &:hover{
                 color: $veryDarkBlue;
             }
@@ -73,7 +72,6 @@ header{
     }
     .cart-button{
         position: relative;
-    }
         .items-count{
             position: absolute;
             top: -9px;
@@ -109,7 +107,6 @@ header{
         }
     }
 }
-
 .burger-menu{
     position: fixed;
     top: 0;
@@ -122,6 +119,11 @@ header{
     transition: left .3s ease;
     .close-button{
         margin-bottom: 50px;
+    }
+    .menu-list{
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
     }
     .menu-link{
         color: $veryDarkBlue;
