@@ -9,7 +9,6 @@ $lightGrayishBlue: hsl(223, 64%, 98%);
 @import 'fonts';
 @import 'header';
 @import 'product-presentation';
-
 // Reset
 *{
     padding: 0;
@@ -18,20 +17,16 @@ $lightGrayishBlue: hsl(223, 64%, 98%);
     text-decoration: none;
     box-sizing: border-box;
 }
-
 body{
     font-family: 'Kumbh Sans', sans-serif;
     overflow-x: hidden;
 }
-
 p{
     font-size: 16px;
 }
-
 img{
     max-width: 100%;
 }
-
 button{
     background: none;
     border: none;
@@ -66,30 +61,34 @@ button{
 }
 
 .button-1{
+    display: block;
     padding: 18px 15px;
     background-color: $orange;
     border-radius: 10px;
-    color: #fff;
-    font-weight: 700;
-    font-size: 16px;
-    box-shadow: 0px 15px 20px 0px $paleOrange;
-    transition: opacity .3s ease;
-    &:hover{
-        opacity: 75%;
-    }
-    &.press{
-        animation: pressAnimation .2s;
+@@ -95,4 +96,26 @@ button{
+    100%{
+        transform: scale(1);
     }
 }
 
-@keyframes pressAnimation{
+@keyframes fadeIn{
     0%{
-        transform: scale(1);
-    }
-    50%{
-        transform: scale(.95);
+        transform: translateY(-20px);
+        opacity: 0;
     }
     100%{
-        transform: scale(1);
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut{
+    0%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    100%{
+        transform: translateY(-20px);
+        opacity: 0;
     }
 }

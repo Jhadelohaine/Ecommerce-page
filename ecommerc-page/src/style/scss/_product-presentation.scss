@@ -173,45 +173,95 @@
     }
     .product-carousel{
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 3;
         .product-image-grid{
+            position: relative;
             .big-image-wrapper{
                 position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 button{
                     position: absolute;
                     display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: #fff;
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    img{
+@@ -189,29 +203,69 @@
                         width: 20px;
                     }
                     &.next-button{
                         right: 10px;
+                        right: -30px;
                         top: calc(50% - 25px);
+                        @media screen and (max-width: 750px) {
+                            right: 10px;
+                        }
                     }
                     &.prev-button{
                         left: 10px;
+                        left: -30px;
                         top: calc(50% - 25px);
+                        @media screen and (max-width: 750px) {
+                            left: 10px;
+                        }
                     }
                 }
             }
             .product-big-image{
                 margin: 0;
+                width: 600px;
                 @media screen and (max-width: 750px) {
+                    width: 100%;
                     border-radius: 0;
                 }
             }
             .product-image-thumbnails{
+                display: flex;
+                justify-content: center;
+                margin-top: 40px;
+                img{
+                    width: 100px;
+                }
+                @media screen and (max-width: 750px) {
+                    display: none;
+                }
+            }
+            .close-carousel-button{
+                &:hover{
+                    .close-icon{
+                        fill: $orange;
+                    }
+                }
+                .close-icon{
+                    position: absolute;
+                    right: 0;
+                    top: -20px;
+                    fill: $lightGrayishBlue;
+                    transform: scale(1.5);
+                    transition: fill .3s ease; 
+                }
                 @media screen and (max-width: 750px) {
                     display: none;
                 }
             }
         }
         @media screen and (max-width: 750px) {
+            position: inherit;
             display: block;
+            background: none;
+            height: inherit;
+        }
+        @media screen and (min-width: 950px) {
+            &.active{
+                display: flex;
+            }
         }
     }
 }
