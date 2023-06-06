@@ -6,28 +6,25 @@ import menuIcon from '../assets/images/icon-menu.svg'
 import closeIcon from '../assets/images/icon-close.svg'
 import iconDelete from '../assets/images/icon-delete.svg'
 import productImage from '../assets/images/image-product-1-thumbnail.jpg'
-
 interface Props {
-    cartItems: object[]
     cartItems: cartItem[]
     menuIsOpen: boolean
     handleMenuToggle: (val: boolean) => void
     removeItem: (index: number) => void
 }
-
 interface productData{
     name: string,
     description: string,
     price: number,
     discount: number,
-    images: number[]
+    image: number[]
+    images: string[]
 }
 
 interface cartItem {
     productData: productData,
     quantity: number
 }
-
 const Header: React.FC<Props> = (props) => {
     const { menuIsOpen, cartItems } = props
     const [ cartIsOpen, setCart ] = useState<boolean>(false)
