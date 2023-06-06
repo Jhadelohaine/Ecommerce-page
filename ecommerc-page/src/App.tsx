@@ -1,33 +1,48 @@
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
-
 import './styles/css/style.css'
 import ProductPresentation from './components/ProductPresentation'
+
+interface productData{
+  name: string,
+  description: string,
+  price: number,
+  discount: number,
+  images: number[]
+}
+
+interface cartItem {
+  productData: productData,
+  quantity: number
+}
 
 function App() {
   const [ menuIsOpen, setMenuIsOpen ] = useState<boolean>(false)
   const [ cartItems, setCartItems ] = useState<object[]>([])
 
   useEffect(()=> {console.log(cartItems)},[cartItems])
+  const [ cartItems, setCartItems ] = useState<cartItem[]>([])
 
   const handleCartChange = (productData: object, quantity: number) => {
-    let itemExist = cartItems.indexOf(cartItems.find(e => e.productData.name == productData.name))
+    let item = cartItems.find(e => e.productData!.name! == productData.name!)
+  const handleCartChange = (productData: productData, quantity: number) => {
+    let item = cartItems.find(e => e.productData.name == productData.name)
+    let itemExist = cartItems.indexOf(item!)
     if(itemExist >= 0){
       console.log(itemExist)
       let items = cartItems
+      cartItems[itemExist].quantity! += quantity
       cartItems[itemExist].quantity += quantity
       setCartItems([...items]) 
     }else{
       setCartItems([...cartItems, {productData: productData, quantity: quantity}])
     }
   }
-
   const removeItem = (index: number) => {
     let items = cartItems
     items.splice(index,1)
     setCartItems([...items])
   }
-
   return (
     <div className="App">
       <div className={`background-mask ${menuIsOpen ? 'active' : null}`} onClick={()=>setMenuIsOpen(false)}></div>
