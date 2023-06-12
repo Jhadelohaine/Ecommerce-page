@@ -7,7 +7,7 @@ interface productData{
   description: string,
   price: number,
   discount: number,
-  image: number[]
+  image: number[],
   images: string[]
 }
 
