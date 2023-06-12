@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+
 // Assets
 import logo from '../assets/images/logo.svg'
 import profileAvatar from '../assets/images/image-avatar.png'
@@ -6,42 +7,47 @@ import menuIcon from '../assets/images/icon-menu.svg'
 import closeIcon from '../assets/images/icon-close.svg'
 import iconDelete from '../assets/images/icon-delete.svg'
 import productImage from '../assets/images/image-product-1-thumbnail.jpg'
+
 interface Props {
     cartItems: cartItem[]
     menuIsOpen: boolean
     handleMenuToggle: (val: boolean) => void
     removeItem: (index: number) => void
 }
+
 interface productData{
     name: string,
     description: string,
     price: number,
     discount: number,
-    image: number[],
     images: string[]
 }
-
+  
 interface cartItem {
     productData: productData,
     quantity: number
 }
+
 const Header: React.FC<Props> = (props) => {
     const { menuIsOpen, cartItems } = props
     const [ cartIsOpen, setCart ] = useState<boolean>(false)
     const [ cartExit, setCartExit ] = useState<boolean>(false)
     const [ cartTotalItems, setCartTotalItems ] = useState<number>(0)
+
     const changeCartStatus = () => {
         if(cartIsOpen){
             setCartExit(true)
         }
         setCart(!cartIsOpen)
     }
+
     useEffect(()=> {
         props.handleMenuToggle(menuIsOpen)
         let itemsQuantity = 0
         for(let el of props.cartItems) itemsQuantity += el.quantity
         setCartTotalItems(itemsQuantity)
     },[props])
+
     return(
         <header className="container">
             <div className="header-content">
@@ -142,4 +148,5 @@ const Header: React.FC<Props> = (props) => {
         </header>
     )
 }
+
 export default Header

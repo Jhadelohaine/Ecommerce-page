@@ -62,6 +62,7 @@ header{
                     background-color: $orange;
                 }
             }
+
             &:hover{
                 color: $veryDarkBlue;
             }
@@ -110,7 +111,7 @@ header{
         border-radius: 10px;
         box-shadow: 0px 9px 20px -5px $grayishBlue;
         opacity: 0;
-        z-index: 4;
+        z-index: 1;
         &.active{
             display: block;
             opacity: 1;
@@ -169,7 +170,6 @@ header{
             box-shadow: inherit;
         }
         @media screen and (max-width: 1500px) {
-            left: -250px;
             left: -220px;
         }
         @media screen and (max-width: 950px) {
@@ -201,6 +201,7 @@ header{
         }
     }
 }
+
 .burger-menu{
     position: fixed;
     top: 0;

@@ -1,145 +1,146 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
+
 // Assets
-import logo from '../assets/images/logo.svg'
-import profileAvatar from '../assets/images/image-avatar.png'
-import menuIcon from '../assets/images/icon-menu.svg'
-import closeIcon from '../assets/images/icon-close.svg'
-import iconDelete from '../assets/images/icon-delete.svg'
-import productImage from '../assets/images/image-product-1-thumbnail.jpg'
+import iconCart from '../assets/images/icon-cart-white.svg'
+import iconMinus from '../assets/images/icon-minus.svg'
+import iconPlus from '../assets/images/icon-plus.svg'
+import iconNext from '../assets/images/icon-next.svg'
+import iconPrevious from '../assets/images/icon-previous.svg'
+
+// productImage
+import productImage1 from '../assets/images/image-product-1.jpg'
+import productImage1Thumbnail from '../assets/images/image-product-1-thumbnail.jpg'
+import productImage2 from '../assets/images/image-product-2.jpg'
+import productImage2Thumbnail from '../assets/images/image-product-2-thumbnail.jpg'
+import productImage3 from '../assets/images/image-product-3.jpg'
+import productImage3Thumbnail from '../assets/images/image-product-3-thumbnail.jpg'
+import productImage4 from '../assets/images/image-product-4.jpg'
+import productImage4Thumbnail from '../assets/images/image-product-4-thumbnail.jpg'
+
 interface Props {
-    cartItems: cartItem[]
-    menuIsOpen: boolean
-    handleMenuToggle: (val: boolean) => void
-    removeItem: (index: number) => void
+    addItemToCart: (productData: productData, quantity: number) => void
 }
+
 interface productData{
     name: string,
     description: string,
     price: number,
     discount: number,
-    image: number[],
     images: string[]
 }
 
-interface cartItem {
-    productData: productData,
-    quantity: number
-}
-const Header: React.FC<Props> = (props) => {
-    const { menuIsOpen, cartItems } = props
-    const [ cartIsOpen, setCart ] = useState<boolean>(false)
-    const [ cartExit, setCartExit ] = useState<boolean>(false)
-    const [ cartTotalItems, setCartTotalItems ] = useState<number>(0)
-    const changeCartStatus = () => {
-        if(cartIsOpen){
-            setCartExit(true)
-        }
-        setCart(!cartIsOpen)
+const ProductPresentation: React.FC<Props> = (props)=> {
+    const [ activeImage, setActiveImage ] = useState<number>(1)
+    const [ cartPress, setCartPress ] = useState<boolean>(false)
+    const [ nextButtonPress, setNextButtonPress ] = useState<boolean>(false)
+    const [ prevButtonPress, setPrevButtonPress ] = useState<boolean>(false)
+    const [ productQuantity, setProductQuantity ] = useState<number>(0)
+    const [ carouselIsOpen, setCarouselIsOpen ] = useState<boolean>(false)
+
+    useEffect(()=>{console.log(activeImage)},[activeImage])
+
+    // To simulate real data
+    const productData = {
+        name: "Fall Limited Edition Sneakers",
+        description: "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
+        price: 250.00,
+        discount: 50,
+        images: [productImage1,productImage2,productImage3,productImage4],
+        imagesThumbnails: [productImage1Thumbnail,productImage2Thumbnail,productImage3Thumbnail,productImage4Thumbnail]
     }
-    useEffect(()=> {
-        props.handleMenuToggle(menuIsOpen)
-        let itemsQuantity = 0
-        for(let el of props.cartItems) itemsQuantity += el.quantity
-        setCartTotalItems(itemsQuantity)
-    },[props])
+
+    const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
+
+    const carouselNext = () => {
+        setNextButtonPress(true)
+        if(activeImage + 1 > productData.images.length) setActiveImage(1)
+        else setActiveImage(activeImage + 1)
+    }
+
+    const carouselPrev = () => {
+        setPrevButtonPress(true)
+        if(activeImage - 1 < 1) setActiveImage(productData.images.length)
+        else setActiveImage(activeImage - 1)
+    }
+
+    const addToCart = () => {
+        setCartPress(true)
+        if(productQuantity > 0){
+            props.addItemToCart(productData,productQuantity)
+        }
+    }
+
     return(
-        <header className="container">
-            <div className="header-content">
-                <div className="header-side">
-                    <button className="burger-button" title="open menu" onClick={ ()=> props.handleMenuToggle(true)}>
-                        <img src={menuIcon} alt="Menu icon"/>
+        <section className="product-presentation">
+            <div className={`product-carousel ${carouselIsOpen ? 'active' : ''}`}>
+                <div className="product-image-grid">
+                    <button className="close-carousel-button" title="close carousel" onClick={()=> setCarouselIsOpen(false)}>
+                        <svg className="close-icon" width="14" height="15" xmlns="http://www.w3.org/2000/svg"><path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" fill-rule="evenodd"/></svg>
                     </button>
-                    <img className="sneaker-logo" src={logo} alt="seankers logo"/>
-                    <nav className="header-nav">
-                        <ul className="header-nav-list">
-                            <li className="header-nav-element">
-                                <a className="header-nav-link" href="#">Collections</a>
-                            </li>
-                            <li className="header-nav-element">
-                                <a className="header-nav-link" href="#">Men</a>
-                            </li>
-                            <li className="header-nav-element">
-                                <a className="header-nav-link active" href="#">Women</a>
-                            </li>
-                            <li className="header-nav-element">
-                                <a className="header-nav-link" href="#">About</a>
-                            </li>
-                            <li className="header-nav-element">
-                                <a className="header-nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div className="header-side">
-                    <div className="cart-wrapper">
-                        <button className="cart-button" title="open cart"  onClick={ ()=> changeCartStatus()}>
-                            <svg className="cart-icon" width="22" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z" fill-rule="nonzero"/></svg>
-                            {cartTotalItems > 0 ? (
-                                <span className="items-count">{cartTotalItems}</span>
-                            ) : null}
+                    <div className="big-image-wrapper">
+                        <button className={`prev-button ${prevButtonPress ? 'press' : ''}`} title="Previous image" onClick={()=> carouselPrev()} onAnimationEnd={()=> setPrevButtonPress(false)}>
+                            <img src={iconPrevious} alt="Next icon" />
                         </button>
-                        <div className={`cart-modal ${cartIsOpen ? 'active' : ''} ${cartExit ? 'out' : ''}`} onAnimationEnd={()=> cartExit ? setCartExit(false) : null}>
-                            <div className="cart-head">Cart</div>
-                            <div className="cart-content">
-                                {cartItems.length > 0 ? (
-                                    <>
-                                        <ul className="cart-list">
-                                            {cartItems.map((item,i)=>(
-                                                <li className="cart-element" key={i}>
-                                                    {/* in real data we should get the thumbnail in the product object or with infos in it*/}
-                                                    <img className="product-image" src={productImage} alt="Product image"/>
-                                                    <div className="product-infos">
-                                                        <div className="product-name">{item.productData.name}</div>
-                                                        <div className="product-quantity">
-                                                            ${(item.productData.price - ((item.productData.price/100)*item.productData.discount)).toFixed(2)} x {item.quantity + ' '}
-                                                            <span className="total-price"> 
-                                                                ${((item.productData.price - ((item.productData.price/100)*item.productData.discount)) * item.quantity).toFixed(2)}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <button className="remove-button" title="remove item" onClick={()=>props.removeItem(i)}>
-                                                        <img src={iconDelete} alt="delete icon"/>
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <a className="button-1" href="#">Checkout</a>
-                                    </>
-                                ) :
-                                (
-                                    <div className="empty-text" >Your cart is empty</div>
-                                )}
-                            </div>
-                        </div>
+                        <img className="product-big-image" src={productData.images[activeImage - 1]} alt="Product image" />
+                        <button className={`next-button ${nextButtonPress ? 'press' : ''}`} title="Next image" onClick={()=> carouselNext()} onAnimationEnd={()=> setNextButtonPress(false)}>
+                            <img src={iconNext} alt="Next icon" />
+                        </button>
                     </div>
-                    <a className="profile-link" href="#">
-                        <img className="profile-avatar" src={profileAvatar} alt="profile picture"/>
-                    </a>
+                    <ul className="product-image-thumbnails">
+                        {productData.imagesThumbnails.map((v,i)=>(
+                            <li className={`product-image-grid-element ${activeImage == productData.imagesThumbnails.indexOf(v) + 1 ? 'active' : ''}`} key={i} onClick={()=> setActiveImage(productData.imagesThumbnails.indexOf(v) + 1)}>
+                                <img className="product-image" src={productData.imagesThumbnails[i]}  alt="Product image" />
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
-            <nav className={`burger-menu ${menuIsOpen ? 'active' : null}`}>
-                <button className="close-button" title="close menu" onClick={()=> props.handleMenuToggle(false)}>
-                    <img className="close-icon" src={closeIcon} alt="close icon"/>
-                </button>
-                <ul className="menu-list">
-                    <li className="menu-element">
-                        <a className="menu-link" href="#" >Collections</a>
-                    </li>
-                    <li className="menu-element">
-                        <a className="menu-link" href="#" >Men</a>
-                    </li>
-                    <li className="menu-element">
-                        <a className="menu-link" href="#" >Women</a>
-                    </li>
-                    <li className="menu-element">
-                        <a className="menu-link" href="#" >About</a>
-                    </li>
-                    <li className="menu-element">
-                        <a className="menu-link" href="#" >Contact</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+            <div className="container">
+                <div className="product-image-grid">
+                    <img className="product-big-image" src={productData.images[activeImage - 1]} alt="Product image" onClick={()=>setCarouselIsOpen(true)} />
+                    <ul className="product-image-thumbnails">
+                        {productData.imagesThumbnails.map((v,i)=>(
+                            <li className={`product-image-grid-element ${activeImage == productData.imagesThumbnails.indexOf(v) + 1 ? 'active' : ''}`} key={i} onClick={()=> setActiveImage(productData.imagesThumbnails.indexOf(v) + 1)}>
+                                <img className="product-image" src={v} alt="Product image" />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="product-infos">
+                    <span className="company-name">Sneaker company</span>
+                    <h1 className="product-name">{productData.name}</h1>
+                    <p className="product-description">{productData.description}</p>
+                    <div className="price-wrapper">
+                        <div className="actual-price-wrapper">
+                            <div className="price">${(productData.price - ((productData.price/100)*productData.discount)).toFixed(2)}</div>
+                            {productData.discount ? (
+                                <div className="discount">{productData.discount}%</div>
+                            ) : ''}
+                        </div>
+                        {productData.discount ? (
+                            <div className="old-price">${productData.price.toFixed(2)}</div>
+                        ) : ''}
+                    </div>
+                    
+                    <div className="product-interactions">
+                        <div className="quantity-selector">
+                            <button className="less-button" title="remove" onClick={()=> setProductQuantity(clamp(productQuantity-1,0,100))}>
+                                <img src={iconMinus} alt="minus icon" />
+                            </button>
+                            <span className="quantity-indicator">{productQuantity}</span>
+                            <button className="more-button" title="add" onClick={()=> setProductQuantity(clamp(productQuantity+1,0,100))}>
+                                <img src={iconPlus} alt="plus icon" />
+                            </button>
+                        </div>
+                        <button className={`button-1 add-to-cart ${cartPress ? 'press' : ''}`} title="add to cart" onClick={()=> addToCart()} onAnimationEnd={()=> setCartPress(false)}>
+                            <img src={iconCart} alt="cart icon" />
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     )
 }
-export default Header
+
+export default  ProductPresentation
